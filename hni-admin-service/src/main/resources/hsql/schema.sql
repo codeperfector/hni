@@ -23,6 +23,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `session_state`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `session_state` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `sessionid` VARCHAR(255) NOT NULL,
+  `eventname` VARCHAR(255) NOT NULL,
+  `phoneno` VARCHAR(255) NOT NULL,
+  `payload` VARCHAR(255) NULL,
+  `eventstate` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `organizations`

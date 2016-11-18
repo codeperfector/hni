@@ -80,7 +80,7 @@ public class RegisterService extends AbstractEventService<User> {
             case STATE_REGISTER_COMPLETE:
                 // save the complete user
                 // userService.save(user);
-                sessionStateDAO.deleteById(event.getSessionId());
+//                sessionStateDAO.deleteById(event.getSessionId());
                 return null;
             default:
                 throw new RuntimeException("Unknown state");

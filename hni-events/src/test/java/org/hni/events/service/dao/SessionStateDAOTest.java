@@ -1,6 +1,5 @@
 package org.hni.events.service.dao;
 
-import org.apache.log4j.BasicConfigurator;
 import org.hni.events.service.om.EventName;
 import org.hni.events.service.om.SessionState;
 import org.junit.Before;
@@ -26,10 +25,6 @@ public class SessionStateDAOTest {
 
     SessionState state;
 
-    public SessionStateDAOTest() {
-        BasicConfigurator.configure();
-    }
-
     @Before
     public void setUp() {
         state = new SessionState(EventName.REGISTER, SESSION_ID, PHONE_NUMBER);
@@ -37,8 +32,7 @@ public class SessionStateDAOTest {
 
     @Test
     public void testInsertGetDao() {
-        sessionStateDAO.insert(state);
-        SessionState returnedSession = sessionStateDAO.get(SESSION_ID);
+        SessionState returnedSession = sessionStateDAO.save(state);
     }
 
 }

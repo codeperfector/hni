@@ -41,6 +41,10 @@ public class SessionState implements Persistable, Serializable {
     public SessionState() {
     }
 
+    public SessionState(Long id) {
+        this.id = id;
+    }
+
     public SessionState(EventName eventName, String sessionId, String phoneNumber) {
         this.sessionId = sessionId;
         this.eventName = eventName;

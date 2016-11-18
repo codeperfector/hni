@@ -90,3 +90,5 @@ insert into security_role_permissions values(5,12,0);
 
 insert into activation_codes values('1234567890', 2, 10, 10, 1, null, now(), null);
 insert into activation_codes values('7h-1234567890', 2, 10, 10, 2, 'freddy has activated this', now(), 2);
+
+insert into session_state values(1, '1', 'REGISTER', '2407868988', '', 'STATE_REGISTER_START');
