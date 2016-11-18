@@ -1,9 +1,8 @@
 package org.hni.events.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hni.events.service.dao.SessionStateDao;
+import org.hni.events.service.dao.SessionStateDAO;
 import org.hni.events.service.om.Event;
-import org.hni.events.service.om.EventState;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -17,7 +16,7 @@ import java.io.IOException;
 public abstract class AbstractEventService<T> implements EventService {
 
     @Inject
-    protected SessionStateDao sessionStateDao;
+    protected SessionStateDAO sessionStateDAO;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 

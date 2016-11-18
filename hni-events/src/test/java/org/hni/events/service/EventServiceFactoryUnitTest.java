@@ -1,6 +1,6 @@
 package org.hni.events.service;
 
-import org.hni.events.service.dao.SessionStateDao;
+import org.hni.events.service.dao.SessionStateDAO;
 import org.hni.events.service.om.Event;
 import org.hni.events.service.om.EventName;
 import org.hni.events.service.om.SessionState;
@@ -25,36 +25,43 @@ public class EventServiceFactoryUnitTest {
     private EventServiceFactory factory;
 
     @Mock
-    private SessionStateDao sessionStateDao;
+    private SessionStateDAO sessionStateDAO;
 
     @Mock
     private RegisterService registerService;
 
     private Event event;
-    private SessionState state = null;
+    private SessionState state;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         factory.init();
+
         event = new Event(SESSION_ID, PHONE_NUMBER, "message");
-        when(sessionStateDao.insert(any(SessionState.class))).thenReturn(true);
         when(registerService.handleEvent(eq(event))).thenReturn(REUTRN_MESSAGE);
     }
 
     @Test
     public void testStartRegisterWorkFlow() {
-        when(sessionStateDao.get(eq(SESSION_ID))).thenReturn(state);
+        //no state exists before the start
+        when(sessionStateDAO.get(eq(SESSION_ID))).thenReturn(null);
+
+        state = new SessionState(EventName.REGISTER, SESSION_ID, PHONE_NUMBER);
+        when(sessionStateDAO.insert(any(SessionState.class))).thenReturn(state);
+
         event.setTextMessage("SIGNUP");
         Assert.assertEquals(REUTRN_MESSAGE, factory.handleEvent(event));
-        verify(sessionStateDao, times(1)).insert(any(SessionState.class));
+        verify(sessionStateDAO, times(1)).insert(any(SessionState.class));
     }
 
     @Test
     public void testContinueRegisterWorkFlow() {
         state = new SessionState(EventName.REGISTER, SESSION_ID, PHONE_NUMBER);
-        when(sessionStateDao.get(eq(SESSION_ID))).thenReturn(state);
+
+        when(sessionStateDAO.get(eq(SESSION_ID))).thenReturn(state);
+
         Assert.assertEquals(REUTRN_MESSAGE, factory.handleEvent(event));
-        verify(sessionStateDao, never()).insert(any(SessionState.class));
+        verify(sessionStateDAO, never()).insert(any(SessionState.class));
     }
 }

@@ -23,7 +23,7 @@ public class RegisterService extends AbstractEventService<User> {
     public String handleEvent(final Event event) {
         final String returnString;
 
-        final SessionState state = sessionStateDao.get(event.getSessionId());
+        final SessionState state = sessionStateDAO.get(event.getSessionId());
         final User user = state.getPayload() != null ? deserialize(state.getPayload(), User.class) : new User();
         final String textMessage = event.getTextMessage();
         boolean nextStep = true;
@@ -80,7 +80,7 @@ public class RegisterService extends AbstractEventService<User> {
             case STATE_REGISTER_COMPLETE:
                 // save the complete user
                 // userService.save(user);
-                sessionStateDao.delete(event.getSessionId());
+                sessionStateDAO.deleteById(event.getSessionId());
                 return null;
             default:
                 throw new RuntimeException("Unknown state");
@@ -89,7 +89,7 @@ public class RegisterService extends AbstractEventService<User> {
             final EventState nextStateCode = EventState.fromStateCode(state.getEventState().getStateCode() + 1);
             final SessionState nextState =
                     new SessionState(state.getEventName(), state.getSessionId(), state.getPhoneNumber(), serialize(user), nextStateCode);
-            sessionStateDao.update(nextState);
+            sessionStateDAO.update(nextState);
         }
         return returnString;
     }

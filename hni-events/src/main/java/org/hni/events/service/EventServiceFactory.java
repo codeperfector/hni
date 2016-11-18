@@ -1,6 +1,6 @@
 package org.hni.events.service;
 
-import org.hni.events.service.dao.SessionStateDao;
+import org.hni.events.service.dao.SessionStateDAO;
 import org.hni.events.service.om.Event;
 import org.hni.events.service.om.EventName;
 import org.hni.events.service.om.SessionState;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class EventServiceFactory {
 
     @Inject
-    private SessionStateDao sessionStateDao;
+    private SessionStateDAO sessionStateDAO;
 
     @Inject
     private RegisterService registerService;
@@ -29,11 +29,11 @@ public class EventServiceFactory {
     }
 
     public String handleEvent(final Event event) {
-        final SessionState state = sessionStateDao.get(event.getSessionId());
+        final SessionState state = sessionStateDAO.get(event.getSessionId());
         final EventName eventName;
         if (state == null) {
             eventName = parseKeyWordToEventName(event.getTextMessage());
-            if (!sessionStateDao.insert(new SessionState(eventName, event.getSessionId(), event.getPhoneNumber()))) {
+            if (sessionStateDAO.insert(new SessionState(eventName, event.getSessionId(), event.getPhoneNumber())) == null) {
                 throw new RuntimeException("Insert failed. Maybe the state is inserted by others. Retry or Reset");
             }
         } else {
