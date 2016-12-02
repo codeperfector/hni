@@ -23,7 +23,7 @@ import org.hni.order.om.OrderItem;
 import org.hni.order.om.PartialOrder;
 import org.hni.order.om.TransactionPhase;
 import org.hni.order.om.type.OrderStatus;
-import org.hni.provider.om.AddressException;
+import org.hni.provider.om.GeoCodingException;
 import org.hni.provider.om.Menu;
 import org.hni.provider.om.MenuItem;
 import org.hni.provider.om.ProviderLocation;
@@ -88,15 +88,6 @@ public class DefaultOrderProcessor implements OrderProcessor {
 
     @Inject
     private EventRouter eventRouter;
-    
-    // TODO: @Value("${address.search.radius}")
-    private static final double RADIUS = 6371.01;
-    
-    // TODO: @Value("${address.search.distance}")
-    private static final double DISTANCE_IN_MILES = 10.0;
-    
-    // TODO: @Value("${address.search.itemsPerPage}")
-    private static final Integer ITEMS_PER_PAGE = 3;
 
     @PostConstruct
     void init() {
@@ -171,8 +162,7 @@ public class DefaultOrderProcessor implements OrderProcessor {
     private String findNearbyMeals(String addressString, PartialOrder order) {
         String output = "";
         try {
-            List<ProviderLocation> nearbyProviders = (ArrayList<ProviderLocation>) locationService.providersNearCustomer(addressString, 
-                    ITEMS_PER_PAGE, DISTANCE_IN_MILES, RADIUS);
+            List<ProviderLocation> nearbyProviders = (ArrayList) locationService.providersNearCustomer(addressString, 3);
             if (!nearbyProviders.isEmpty()) {
                 order.setAddress(addressString);
                 List<ProviderLocation> nearbyWithMenu = new ArrayList<>();
@@ -196,7 +186,7 @@ public class DefaultOrderProcessor implements OrderProcessor {
             } else {
                 output = REPLY_NO_PROVIDERS;
             }
-        } catch (AddressException e) {
+        } catch (GeoCodingException e) {
             output = e.getMessage();
         }
 

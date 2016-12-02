@@ -19,7 +19,6 @@ import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -136,19 +135,17 @@ public class ProviderController extends AbstractBaseController {
 	@GET
 	@Path("/providerLocations")
 	@Produces({MediaType.APPLICATION_JSON})
-	@ApiOperation(value = "Returns a collection of nearby ProviderLocations for the given customer address"
+	@ApiOperation(value = "Returns a collection of ProviderLocations for the given customer"
 			, notes = ""
 			, response = ProviderLocation.class
 			, responseContainer = "")
 	public Collection<ProviderLocation> getProviderLocationsByCustomerAddress(
 			@QueryParam("customerId") Long custId,
 			@NotNull @QueryParam("address") String customerAddress,
-			@DefaultValue("1") @QueryParam("itemsPerPage") int itemsPerPage,
-			@DefaultValue("1") @QueryParam("pageNumber") int pageNum,
-			@DefaultValue("10") @QueryParam("distance") double distance,
-			@DefaultValue("6371.01") @QueryParam("radius") double radius) {
+			@QueryParam("itemsPerPage") int itemsPerPage,
+			@QueryParam("pageNumber") int pageNum) {
 		if (!StringUtils.isBlank(customerAddress)) {
-			return providerLocationService.providersNearCustomer(customerAddress, itemsPerPage, distance, radius);
+			return providerLocationService.providersNearCustomer(customerAddress, itemsPerPage);
 		}
 		return null;
 	}

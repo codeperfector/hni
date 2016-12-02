@@ -111,6 +111,7 @@ CREATE TABLE IF NOT EXISTS `provider_locations` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
+
 -- -----------------------------------------------------
 -- Table `orders`
 -- -----------------------------------------------------
@@ -180,12 +181,10 @@ CREATE TABLE IF NOT EXISTS `addresses` (
   `city` VARCHAR(45) NULL,
   `state` VARCHAR(2) NULL,
   `zip` VARCHAR(15) NULL,
-  `longitude` DOUBLE NULL,
-  `latitude` DOUBLE NULL,
+  `longitude` VARCHAR(45) NULL,
+  `latitude` VARCHAR(45) NULL,
   `timezone` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`),
-  INDEX (`longitude`),
-  INDEX (`latitude`))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
