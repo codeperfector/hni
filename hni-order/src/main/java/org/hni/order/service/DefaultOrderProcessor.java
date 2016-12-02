@@ -69,7 +69,7 @@ public class DefaultOrderProcessor implements OrderProcessor {
     
     public static String REPLY_NO_UNDERSTAND = "I don't understand that. Reply with MEAL to place an order.";
     public static String REPLY_INVALID_INPUT = "Invalid input! ";
-    public static String REPLY_EXCEPTION_REGISTER_FIRST = "Youll need to reply with REGISTER to sign up first.";
+    public static String REPLY_EXCEPTION_REGISTER_FIRST = "You will need to reply with REGISTER to sign up first.";
     public static String REPLY_MAX_ORDERS_REACHED = "You've reached the maximum number of orders for today. Please come back tomorrow.";
     
     @Inject
@@ -260,7 +260,7 @@ public class DefaultOrderProcessor implements OrderProcessor {
 			}
 	 		// Set next phase to confirm order
 	 		order.setTransactionPhase(TransactionPhase.CONFIRM_OR_REDO);
-	 		output = REPLY_CONFIRM_ORDER;
+	 		output = String.format(REPLY_CONFIRM_ORDER, menuItem.getName(),order.getChosenProvider().getName());
     	}
 		partialOrderDAO.save(order);
 		return output;
@@ -309,7 +309,8 @@ public class DefaultOrderProcessor implements OrderProcessor {
             if (status.equals(OrderStatus.OPEN)) {
                 return REPLY_ORDER_PENDING;
             } else if (status.equals(OrderStatus.ORDERED)) {
-                return String.format(REPLY_ORDER_READY, order.get().getProviderLocation().getName(), order.get().getProviderLocation().getAddress().getAddress1(), order.get().getProviderLocation().getAddress().getCity());
+                return String.format(REPLY_ORDER_READY, order.get().getProviderLocation().getAddress().getAddress1(), order.get().getProviderLocation().getAddress().getCity(), order.get().getProviderLocation().getAddress().getState());
+
             } else {
                 //TODO should we say anything for if they suspect an error
                 return REPLY_ORDER_CLOSED;
