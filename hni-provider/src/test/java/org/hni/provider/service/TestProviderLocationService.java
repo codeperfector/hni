@@ -1,20 +1,19 @@
 package org.hni.provider.service;
 
-import static org.junit.Assert.*;
-
-import java.util.Collection;
-import java.util.Date;
-
-import javax.inject.Inject;
-
 import org.hni.provider.om.Provider;
 import org.hni.provider.om.ProviderLocation;
-import org.hni.user.om.Address;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
+
+import java.util.Collection;
+import java.util.Date;
+
+import static org.junit.Assert.*;
 
 /**
  * The schema for testing is located in the hni-schema project which gets shared across
@@ -75,10 +74,10 @@ public class TestProviderLocationService {
 
 	//@Test
 	public void testGetProviderLocationByCustomerId() {
-		Collection<ProviderLocation> providerLocations = providerLocationService.providersNearCustomer("bridle view way ohcolumbus", 1);
+		Collection<ProviderLocation> providerLocations = providerLocationService.providersNearCustomer("bridle view way ohcolumbus", 1, 0, 0);
 		assertTrue(providerLocations.size() > 0);
 
-		providerLocations = providerLocationService.providersNearCustomer("reston town center reston va", 1);
+		providerLocations = providerLocationService.providersNearCustomer("reston town center reston va", 1, 0, 0);
 		assertTrue(providerLocations.size() > 0);
 	}
 }

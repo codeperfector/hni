@@ -35,7 +35,7 @@ public class DefaultProviderLocationService extends AbstractService<ProviderLoca
 	}
 
 	@Override
-	public Collection<ProviderLocation> providersNearCustomer(String customerAddress, int itemsPerPage) {
+	public Collection<ProviderLocation> providersNearCustomer(String customerAddress, int itemsPerPage, double distance, double radius) {
 
 		Address addrpoint = geoCodingService.resolveAddress(customerAddress).orElse(null);
 

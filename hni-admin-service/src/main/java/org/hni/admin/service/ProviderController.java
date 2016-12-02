@@ -145,7 +145,10 @@ public class ProviderController extends AbstractBaseController {
 			@QueryParam("itemsPerPage") int itemsPerPage,
 			@QueryParam("pageNumber") int pageNum) {
 		if (!StringUtils.isBlank(customerAddress)) {
-			return providerLocationService.providersNearCustomer(customerAddress, itemsPerPage);
+			// ### TODO: The last two arguments are no-ops right now. These are place holders for when the efficient geo-search
+			// ### algorithm is brought back into play.
+			// Github issue #58 - https://github.com/hungernotimpossible/hni/issues/58
+			return providerLocationService.providersNearCustomer(customerAddress, itemsPerPage, 0, 0);
 		}
 		return null;
 	}

@@ -1,18 +1,5 @@
 package org.hni.order.service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-
 import org.apache.commons.lang.StringUtils;
 import org.hni.events.service.EventRouter;
 import org.hni.events.service.om.Event;
@@ -35,6 +22,19 @@ import org.hni.user.om.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class DefaultOrderProcessor implements OrderProcessor {
@@ -162,7 +162,10 @@ public class DefaultOrderProcessor implements OrderProcessor {
     private String findNearbyMeals(String addressString, PartialOrder order) {
         String output = "";
         try {
-            List<ProviderLocation> nearbyProviders = (ArrayList) locationService.providersNearCustomer(addressString, 3);
+            // ### TODO: The last two arguments are no-ops right now. These are place holders for when the efficient geo-search
+            // ### algorithm is brought back into play.
+            // Github issue #58 - https://github.com/hungernotimpossible/hni/issues/58
+            List<ProviderLocation> nearbyProviders = (ArrayList) locationService.providersNearCustomer(addressString, 3, 0, 0);
             if (!nearbyProviders.isEmpty()) {
                 order.setAddress(addressString);
                 List<ProviderLocation> nearbyWithMenu = new ArrayList<>();
